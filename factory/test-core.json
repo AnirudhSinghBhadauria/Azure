@@ -1,0 +1,9 @@
+{
+	"name": "test-core",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "82c0ed0e-6b2d-423a-bb15-aeceece04874",
+		"tenantId": "d3cb03d7-7050-4068-bb45-4e8cd0b44b10"
+	}
+}
