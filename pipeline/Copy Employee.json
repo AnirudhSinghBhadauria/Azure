@@ -1,9 +1,9 @@
 {
-	"name": "CopyPipeline",
+	"name": "Copy Employee",
 	"properties": {
 		"activities": [
 			{
-				"name": "CopyEmployee",
+				"name": "Copy Employee",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -29,7 +29,8 @@
 					"sink": {
 						"type": "ParquetSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
+							"type": "AzureBlobStorageWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
 						},
 						"formatSettings": {
 							"type": "ParquetWriteSettings"
@@ -298,13 +299,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "employeeDataset",
+						"referenceName": "EmployeeCSV",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "EmployeeCompensation",
+						"referenceName": "EmployeeParquet",
 						"type": "DatasetReference"
 					}
 				]

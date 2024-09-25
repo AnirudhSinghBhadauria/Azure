@@ -1,9 +1,12 @@
 {
-	"name": "EmployeeCompensation",
+	"name": "EmployeeParquet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "azurestorage",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Employee Copy Dataset"
 		},
 		"annotations": [],
 		"type": "Parquet",
