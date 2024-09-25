@@ -1,0 +1,38 @@
+{
+	"name": "Source_Chunk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Chunk Datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "test-storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SUCH_ID",
+				"type": "String"
+			},
+			{
+				"name": "SUCH_CODE",
+				"type": "String"
+			},
+			{
+				"name": "NLK",
+				"type": "String"
+			}
+		]
+	}
+}

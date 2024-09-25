@@ -6,14 +6,14 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Employee Copy Dataset"
+			"name": "Employee Datasets"
 		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "target",
+				"folderPath": "target/processed employee",
 				"container": "test-storage"
 			},
 			"compressionCodec": "snappy"

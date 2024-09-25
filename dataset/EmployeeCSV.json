@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Employee Copy Dataset"
+			"name": "Employee Datasets"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "Employee_Compensation.csv",
-				"folderPath": "source",
+				"folderPath": "source/employee",
 				"container": "test-storage"
 			},
 			"columnDelimiter": ",",
