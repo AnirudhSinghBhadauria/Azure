@@ -1,0 +1,23 @@
+{
+	"name": "Copy_Finance",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Finance Datasets"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "target/processed finance",
+				"container": "test-storage"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
