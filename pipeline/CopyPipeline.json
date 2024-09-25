@@ -27,14 +27,12 @@
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
+						"type": "ParquetSink",
 						"storeSettings": {
 							"type": "AzureBlobStorageWriteSettings"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".csv"
+							"type": "ParquetWriteSettings"
 						}
 					},
 					"enableStaging": false,
@@ -48,8 +46,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Organization Group Code",
-									"type": "String",
+									"name": "OrganizationGroupCode",
 									"physicalType": "String"
 								}
 							},
@@ -60,8 +57,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Job Family Code",
-									"type": "String",
+									"name": "JobFamilyCode",
 									"physicalType": "String"
 								}
 							},
@@ -72,8 +68,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Job Code",
-									"type": "String",
+									"name": "JobCode",
 									"physicalType": "String"
 								}
 							},
@@ -84,8 +79,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Year Type",
-									"type": "String",
+									"name": "YearType",
 									"physicalType": "String"
 								}
 							},
@@ -108,8 +102,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Organization Group",
-									"type": "String",
+									"name": "OrganizationGroup",
 									"physicalType": "String"
 								}
 							},
@@ -120,8 +113,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Department Code",
-									"type": "String",
+									"name": "DepartmentCode",
 									"physicalType": "String"
 								}
 							},
@@ -144,8 +136,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Union Code",
-									"type": "String",
+									"name": "UnionCode",
 									"physicalType": "String"
 								}
 							},
@@ -168,8 +159,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Job Family",
-									"type": "String",
+									"name": "JobFamily",
 									"physicalType": "String"
 								}
 							},
@@ -192,8 +182,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Employee Identifier",
-									"type": "String",
+									"name": "EmployeeIdentifier",
 									"physicalType": "String"
 								}
 							},
@@ -228,8 +217,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Other Salaries",
-									"type": "String",
+									"name": "OtherSalaries",
 									"physicalType": "String"
 								}
 							},
@@ -240,8 +228,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Total Salary",
-									"type": "String",
+									"name": "TotalSalary",
 									"physicalType": "String"
 								}
 							},
@@ -264,8 +251,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Health and Dental",
-									"type": "String",
+									"name": "HealthandDental",
 									"physicalType": "String"
 								}
 							},
@@ -276,8 +262,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Other Benefits",
-									"type": "String",
+									"name": "OtherBenefits",
 									"physicalType": "String"
 								}
 							},
@@ -288,8 +273,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Total Benefits",
-									"type": "String",
+									"name": "TotalBenefits",
 									"physicalType": "String"
 								}
 							},
@@ -300,8 +284,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Total Compensation",
-									"type": "String",
+									"name": "TotalCompensation",
 									"physicalType": "String"
 								}
 							}
@@ -321,7 +304,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "CopyEmployee",
+						"referenceName": "EmployeeCompensation",
 						"type": "DatasetReference"
 					}
 				]

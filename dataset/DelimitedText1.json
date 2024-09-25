@@ -1,0 +1,113 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Employee_Compensation.csv",
+				"folderPath": "source",
+				"container": "test-storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Organization Group Code",
+				"type": "String"
+			},
+			{
+				"name": "Job Family Code",
+				"type": "String"
+			},
+			{
+				"name": "Job Code",
+				"type": "String"
+			},
+			{
+				"name": "Year Type",
+				"type": "String"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "Organization Group",
+				"type": "String"
+			},
+			{
+				"name": "Department Code",
+				"type": "String"
+			},
+			{
+				"name": "Department",
+				"type": "String"
+			},
+			{
+				"name": "Union Code",
+				"type": "String"
+			},
+			{
+				"name": "Union",
+				"type": "String"
+			},
+			{
+				"name": "Job Family",
+				"type": "String"
+			},
+			{
+				"name": "Job",
+				"type": "String"
+			},
+			{
+				"name": "Employee Identifier",
+				"type": "String"
+			},
+			{
+				"name": "Salaries",
+				"type": "String"
+			},
+			{
+				"name": "Overtime",
+				"type": "String"
+			},
+			{
+				"name": "Other Salaries",
+				"type": "String"
+			},
+			{
+				"name": "Total Salary",
+				"type": "String"
+			},
+			{
+				"name": "Retirement",
+				"type": "String"
+			},
+			{
+				"name": "Health and Dental",
+				"type": "String"
+			},
+			{
+				"name": "Other Benefits",
+				"type": "String"
+			},
+			{
+				"name": "Total Benefits",
+				"type": "String"
+			},
+			{
+				"name": "Total Compensation",
+				"type": "String"
+			}
+		]
+	}
+}
