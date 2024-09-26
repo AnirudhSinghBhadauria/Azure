@@ -5,6 +5,11 @@
 			"referenceName": "azurestorage",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"chunk_name": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "Chunk Datasets"
 		},
