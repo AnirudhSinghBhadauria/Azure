@@ -1,9 +1,14 @@
 {
-	"name": "Files",
+	"name": "Files_Dynamic_Dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "azurestorage",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileName": {
+				"type": "string"
+			}
 		},
 		"folder": {
 			"name": "Files Datasets"
@@ -13,6 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
 				"folderPath": "source/test",
 				"container": "test-storage"
 			},
