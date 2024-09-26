@@ -5,6 +5,9 @@
 			"referenceName": "azurestorage",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Files Datasets"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
