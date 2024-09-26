@@ -1,0 +1,21 @@
+{
+	"name": "Sales_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Sales Datasets"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "source/sales",
+				"container": "test-storage"
+			}
+		}
+	}
+}

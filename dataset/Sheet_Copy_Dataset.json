@@ -1,0 +1,21 @@
+{
+	"name": "Sheet_Copy_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Sales Datasets"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "target/processed sales",
+				"container": "test-storage"
+			}
+		}
+	}
+}
