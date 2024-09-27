@@ -1004,7 +1004,7 @@
 						}
 					},
 					{
-						"name": "ForEach1",
+						"name": "For each filtered file",
 						"type": "ForEach",
 						"dependsOn": [
 							{
