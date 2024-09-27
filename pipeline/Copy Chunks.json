@@ -90,7 +90,10 @@
 				"inputs": [
 					{
 						"referenceName": "Source_Chunk",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"chunk_name": "done"
+						}
 					}
 				],
 				"outputs": [
