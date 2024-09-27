@@ -38,6 +38,9 @@
 					"referenceName": "azurestorage",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "Copy Files Datasets"
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
@@ -485,6 +488,9 @@
 				"linkedServiceName": {
 					"referenceName": "azurestorage",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Copy Files Datasets"
 				},
 				"annotations": [],
 				"type": "Parquet",
@@ -1004,7 +1010,7 @@
 						}
 					},
 					{
-						"name": "For each filtered file",
+						"name": "Copy each filtered file",
 						"type": "ForEach",
 						"dependsOn": [
 							{
