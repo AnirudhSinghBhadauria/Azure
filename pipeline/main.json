@@ -33,7 +33,7 @@
 				}
 			},
 			{
-				"name": "For each file",
+				"name": "For each file in the soure folder",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -88,7 +88,7 @@
 							}
 						},
 						{
-							"name": "If Condition1",
+							"name": "If file recently mod",
 							"type": "IfCondition",
 							"dependsOn": [
 								{
@@ -106,7 +106,7 @@
 								},
 								"ifTrueActivities": [
 									{
-										"name": "Set variable1",
+										"name": "Setting timestamp",
 										"type": "SetVariable",
 										"dependsOn": [],
 										"policy": {
@@ -123,11 +123,11 @@
 										}
 									},
 									{
-										"name": "Set variable2",
+										"name": "Setting filename",
 										"type": "SetVariable",
 										"dependsOn": [
 											{
-												"activity": "Set variable1",
+												"activity": "Setting timestamp",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -153,11 +153,11 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Copying the most recent file",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "For each file",
+						"activity": "For each file in the soure folder",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -222,6 +222,44 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Delete most recent file form source",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "Copying the most recent file",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "Files_Dynamic_Dataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@variables('LastModifiedFileName')",
+								"type": "Expression"
+							}
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
 			}
 		],
 		"variables": {
