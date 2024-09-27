@@ -1,0 +1,109 @@
+{
+	"name": "ParquetFiles_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "target",
+				"container": "test-storage"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "OrganizationGroupCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "JobFamilyCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "JobCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "YearType",
+				"type": "UTF8"
+			},
+			{
+				"name": "Year",
+				"type": "UTF8"
+			},
+			{
+				"name": "OrganizationGroup",
+				"type": "UTF8"
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "Department",
+				"type": "UTF8"
+			},
+			{
+				"name": "UnionCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "Union",
+				"type": "UTF8"
+			},
+			{
+				"name": "JobFamily",
+				"type": "UTF8"
+			},
+			{
+				"name": "Job",
+				"type": "UTF8"
+			},
+			{
+				"name": "EmployeeIdentifier",
+				"type": "UTF8"
+			},
+			{
+				"name": "Salaries",
+				"type": "UTF8"
+			},
+			{
+				"name": "Overtime",
+				"type": "UTF8"
+			},
+			{
+				"name": "OtherSalaries",
+				"type": "UTF8"
+			},
+			{
+				"name": "TotalSalary",
+				"type": "UTF8"
+			},
+			{
+				"name": "Retirement",
+				"type": "UTF8"
+			},
+			{
+				"name": "HealthandDental",
+				"type": "UTF8"
+			},
+			{
+				"name": "OtherBenefits",
+				"type": "UTF8"
+			},
+			{
+				"name": "TotalBenefits",
+				"type": "UTF8"
+			},
+			{
+				"name": "TotalCompensation",
+				"type": "UTF8"
+			}
+		]
+	}
+}

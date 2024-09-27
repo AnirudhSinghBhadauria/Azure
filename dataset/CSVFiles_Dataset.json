@@ -1,19 +1,16 @@
 {
-	"name": "Dynamic_Target",
+	"name": "CSVFiles_Dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "azurestorage",
 			"type": "LinkedServiceReference"
-		},
-		"folder": {
-			"name": "Files Datasets"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "target/Recent files",
+				"folderPath": "target/processed files/csv",
 				"container": "test-storage"
 			},
 			"columnDelimiter": ",",
