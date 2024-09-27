@@ -57,7 +57,7 @@
 				}
 			},
 			{
-				"name": "For each filtered file",
+				"name": "Copy each filtered file",
 				"type": "ForEach",
 				"dependsOn": [
 					{
