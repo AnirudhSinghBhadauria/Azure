@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Get Files Metadata",
+				"name": "Get Folder Metadata",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -33,11 +33,11 @@
 				}
 			},
 			{
-				"name": "For Each File",
+				"name": "For each file",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Get Files Metadata",
+						"activity": "Get Folder Metadata",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -46,13 +46,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Get Files Metadata').output.childItems",
+						"value": "@activity('Get Each File Name').output.childItems",
 						"type": "Expression"
 					},
-					"isSequential": false,
 					"activities": [
 						{
-							"name": "Get Metadata1",
+							"name": "Get Each File Name",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -80,57 +79,11 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
 									"type": "DelimitedTextReadSettings"
 								}
-							}
-						},
-						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "Get Metadata1",
-									"dependencyConditions": [
-										"Completed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"ifFalseActivities": [
-									{
-										"name": "Set variable2",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": ""
-										}
-									}
-								],
-								"ifTrueActivities": [
-									{
-										"name": "Set variable1",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": ""
-										}
-									}
-								]
 							}
 						}
 					]
