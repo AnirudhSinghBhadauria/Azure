@@ -1510,6 +1510,9 @@
 						"type": "string"
 					}
 				},
+				"folder": {
+					"name": "Copy Files Datasets"
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
@@ -2291,6 +2294,9 @@
 				"linkedServiceName": {
 					"referenceName": "azurestorage",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Copy Files Datasets"
 				},
 				"annotations": [],
 				"type": "Json",
