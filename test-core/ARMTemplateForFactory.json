@@ -200,7 +200,7 @@
 						}
 					},
 					{
-						"name": "Copy each filtered file",
+						"name": "Copy each filtered csv file",
 						"type": "ForEach",
 						"dependsOn": [
 							{
@@ -284,6 +284,113 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "Filter Parquet files",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "Gell all files from source folder",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Gell all files from source folder').output.childItems",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@contains(item().name, '.parquet')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Copy each filtered parquet",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Filter Parquet files",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Filter Parquet files').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy Parquet",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "ParquetSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "ParquetReadSettings"
+											}
+										},
+										"sink": {
+											"type": "ParquetSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "ParquetWriteSettings"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "Copy_ParquetFile",
+											"type": "DatasetReference",
+											"parameters": {
+												"FileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Parquet_Target_Dataset",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -297,7 +404,9 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Files')]",
 				"[concat(variables('factoryId'), '/datasets/Files_Dynamic_Dataset')]",
-				"[concat(variables('factoryId'), '/datasets/CSVFiles_Dataset')]"
+				"[concat(variables('factoryId'), '/datasets/CSVFiles_Dataset')]",
+				"[concat(variables('factoryId'), '/datasets/Copy_ParquetFile')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet_Target_Dataset')]"
 			]
 		},
 		{
@@ -1287,6 +1396,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Copy_ParquetFile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "azurestorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Copy Files Datasets"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
+						"folderPath": "source/test",
+						"container": "test-storage"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Dynamic_Target')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1790,6 +1936,31 @@
 						"type": "UTF8"
 					}
 				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet_Target_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "azurestorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "target/processed files/parquet",
+						"container": "test-storage"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"

@@ -13,6 +13,410 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Copy Employee')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Employee",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "PreserveHierarchy"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Organization Group Code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OrganizationGroupCode",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Job Family Code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "JobFamilyCode",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Job Code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "JobCode",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Year Type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "YearType",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Year",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Year",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Organization Group",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OrganizationGroup",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Department Code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DepartmentCode",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Department",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Department",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Union Code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "UnionCode",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Union",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Union",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Job Family",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "JobFamily",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Job",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Job",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Employee Identifier",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeIdentifier",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Salaries",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Salaries",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Overtime",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Overtime",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Other Salaries",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherSalaries",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Total Salary",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalSalary",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Retirement",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Retirement",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Health and Dental",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "HealthandDental",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Other Benefits",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherBenefits",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Total Benefits",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalBenefits",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Total Compensation",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalCompensation",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "EmployeeCSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "EmployeeParquet",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Copy Activity"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy Files')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy list files",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"fileListPath": "test-storage/source/test/files.txt",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Files",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "FilesCopy",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Copy Activity"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Copy Sheets')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
