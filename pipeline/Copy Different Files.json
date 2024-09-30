@@ -57,7 +57,7 @@
 				}
 			},
 			{
-				"name": "Copy each filtered file",
+				"name": "Copy each filtered csv file",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -134,6 +134,112 @@
 							"outputs": [
 								{
 									"referenceName": "CSVFiles_Dataset",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Filter Parquet files",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Gell all files from source folder",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Gell all files from source folder').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@contains(item().name, '.parquet')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Copy each filtered parquet",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter Parquet files",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter Parquet files').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy Parquet",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ParquetSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "ParquetReadSettings"
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "Copy_ParquetFile",
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Parquet_Target_Dataset",
 									"type": "DatasetReference"
 								}
 							]

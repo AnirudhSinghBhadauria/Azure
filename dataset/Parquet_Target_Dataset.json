@@ -1,0 +1,20 @@
+{
+	"name": "Parquet_Target_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "target/processed files/parquet",
+				"container": "test-storage"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
