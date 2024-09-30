@@ -1,23 +1,19 @@
 {
-	"name": "Parquet_Target_Dataset",
+	"name": "Target_JSON_dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "azurestorage",
 			"type": "LinkedServiceReference"
 		},
-		"folder": {
-			"name": "Copy Files Datasets"
-		},
 		"annotations": [],
-		"type": "Parquet",
+		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "target/processed files/parquet",
+				"folderPath": "target/processed files/json",
 				"container": "test-storage"
-			},
-			"compressionCodec": "snappy"
+			}
 		},
-		"schema": []
+		"schema": {}
 	}
 }
