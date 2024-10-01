@@ -13,6 +13,53 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Weather')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "azurestorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Weather Dataset"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "weather_data.csv",
+						"folderPath": "source/weather",
+						"container": "test-storage"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "station_id",
+						"type": "String"
+					},
+					{
+						"name": "timestamp",
+						"type": "String"
+					},
+					{
+						"name": "temperature",
+						"type": "String"
+					},
+					{
+						"name": "snow_depth",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Copy Chunks')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1115,7 +1162,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Weather')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/main')]",
@@ -1403,6 +1452,184 @@
 				"annotations": []
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Alert notification')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "test-fail",
+						"type": "Fail",
+						"dependsOn": [
+							{
+								"activity": "get-test-metadata",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"message": "get metadata failed",
+							"errorCode": "101"
+						}
+					},
+					{
+						"name": "get-test-metadata",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "FailTest",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "set test variable",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Execute copy chunk Pipeline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "PipeStatus",
+							"value": "\"True\""
+						}
+					},
+					{
+						"name": "Wait for setting variable",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "get-test-metadata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
+					},
+					{
+						"name": "Execute copy chunk Pipeline",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Wait for setting variable",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Copy Chunks",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Copy chunks failed",
+						"type": "Fail",
+						"dependsOn": [
+							{
+								"activity": "Execute copy chunk Pipeline",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "set test variable on fail",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"message": "Copy chunks failed",
+							"errorCode": "102"
+						}
+					},
+					{
+						"name": "set test variable on fail",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "test-fail",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "PipeStatus",
+							"value": "\"False\""
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"PipeStatus": {
+						"type": "String",
+						"defaultValue": "\"True\""
+					}
+				},
+				"folder": {
+					"name": "Alter notification"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Copy Chunks')]"
+			]
 		}
 	]
 }
