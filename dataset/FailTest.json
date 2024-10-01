@@ -1,0 +1,26 @@
+{
+	"name": "FailTest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Fail Datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "source/dribble",
+				"container": "test-storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
