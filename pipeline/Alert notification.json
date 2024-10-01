@@ -67,7 +67,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "PipeStatus",
-					"value": true
+					"value": "\"True\""
 				}
 			},
 			{
@@ -120,9 +120,9 @@
 						]
 					},
 					{
-						"activity": "set test variable on fali",
+						"activity": "set test variable on fail",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
@@ -133,7 +133,7 @@
 				}
 			},
 			{
-				"name": "set test variable on fali",
+				"name": "set test variable on fail",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -150,14 +150,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "PipeStatus",
-					"value": false
+					"value": "\"False\""
 				}
 			}
 		],
 		"variables": {
 			"PipeStatus": {
-				"type": "Boolean",
-				"defaultValue": "True"
+				"type": "String",
+				"defaultValue": "\"True\""
 			}
 		},
 		"folder": {
