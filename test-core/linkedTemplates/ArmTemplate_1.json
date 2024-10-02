@@ -26,6 +26,9 @@
 						"type": "string"
 					}
 				},
+				"folder": {
+					"name": "Copy Files Datasets"
+				},
 				"annotations": [],
 				"type": "Binary",
 				"typeProperties": {
@@ -1298,13 +1301,7 @@
 					"elapsedTimeMetric": {}
 				},
 				"variables": {
-					"test": {
-						"type": "String"
-					},
 					"filename": {
-						"type": "String"
-					},
-					"filenature": {
 						"type": "String"
 					},
 					"filetype": {

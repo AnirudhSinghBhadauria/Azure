@@ -933,6 +933,9 @@
 						"type": "string"
 					}
 				},
+				"folder": {
+					"name": "Copy Files Datasets"
+				},
 				"annotations": [],
 				"type": "Binary",
 				"typeProperties": {
