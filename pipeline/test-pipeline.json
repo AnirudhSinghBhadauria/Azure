@@ -1,0 +1,126 @@
+{
+	"name": "test-pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "test-get-data",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"linkedServices": [
+						{
+							"referenceName": "azurestorage",
+							"type": "LinkedServiceReference"
+						}
+					],
+					"url": "https://jsonplaceholder.typicode.com/posts"
+				}
+			},
+			{
+				"name": "test-post-data",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "test-get-data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-type": "application/json"
+					},
+					"linkedServices": [
+						{
+							"referenceName": "azurestorage",
+							"type": "LinkedServiceReference"
+						}
+					],
+					"url": "https://jsonplaceholder.typicode.com/posts",
+					"body": {
+						"id": 101,
+						"title": "foo",
+						"body": "bar",
+						"userId": 1
+					}
+				}
+			},
+			{
+				"name": "test-put-data",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "test-post-data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "PUT",
+					"headers": {
+						"Content-type": "application/json"
+					},
+					"linkedServices": [
+						{
+							"referenceName": "azurestorage",
+							"type": "LinkedServiceReference"
+						}
+					],
+					"url": "https://jsonplaceholder.typicode.com/posts",
+					"body": {
+						"id": 101,
+						"title": "foo",
+						"body": "car",
+						"userId": 1
+					}
+				}
+			}
+		],
+		"variables": {
+			"test": {
+				"type": "String"
+			},
+			"filename": {
+				"type": "String"
+			},
+			"filenature": {
+				"type": "String"
+			},
+			"filetype": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "REST operations"
+		},
+		"annotations": []
+	}
+}
