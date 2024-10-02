@@ -30,6 +30,141 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/test-pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "test-get-data",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "GET",
+							"headers": {},
+							"linkedServices": [
+								{
+									"referenceName": "azurestorage",
+									"type": "LinkedServiceReference"
+								}
+							],
+							"url": "https://jsonplaceholder.typicode.com/posts"
+						}
+					},
+					{
+						"name": "test-post-data",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "test-get-data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {
+								"Content-type": "application/json"
+							},
+							"linkedServices": [
+								{
+									"referenceName": "azurestorage",
+									"type": "LinkedServiceReference"
+								}
+							],
+							"url": "https://jsonplaceholder.typicode.com/posts",
+							"body": {
+								"id": 101,
+								"title": "foo",
+								"body": "bar",
+								"userId": 1
+							}
+						}
+					},
+					{
+						"name": "test-put-data",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "test-post-data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "PUT",
+							"headers": {
+								"Content-type": "application/json"
+							},
+							"linkedServices": [
+								{
+									"referenceName": "azurestorage",
+									"type": "LinkedServiceReference"
+								}
+							],
+							"url": "https://jsonplaceholder.typicode.com/posts",
+							"body": {
+								"id": 101,
+								"title": "foo",
+								"body": "car",
+								"userId": 1
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"test": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"filenature": {
+						"type": "String"
+					},
+					"filetype": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "REST operations"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CSVFiles_Dataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -782,6 +917,44 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Sink_Files')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "azurestorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"filetype": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat('target/', 'processed files/', dataset().filetype, '/')",
+							"type": "Expression"
+						},
+						"container": "test-storage"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Source_Chunk')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -824,113 +997,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Target_Chunks')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "azurestorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Chunk Datasets"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "target/processed chunks",
-						"container": "test-storage"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "State/UT",
-						"type": "String"
-					},
-					{
-						"name": "Prop_1",
-						"type": "String"
-					},
-					{
-						"name": "2023",
-						"type": "String"
-					},
-					{
-						"name": "2022",
-						"type": "String"
-					},
-					{
-						"name": "2021",
-						"type": "String"
-					},
-					{
-						"name": "2020",
-						"type": "String"
-					},
-					{
-						"name": "2019",
-						"type": "String"
-					},
-					{
-						"name": "2018",
-						"type": "String"
-					},
-					{
-						"name": "2017",
-						"type": "String"
-					},
-					{
-						"name": "2016",
-						"type": "String"
-					},
-					{
-						"name": "2015",
-						"type": "String"
-					},
-					{
-						"name": "2014",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Target_JSON_dataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "azurestorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Copy Files Datasets"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "target/processed files/json",
-						"container": "test-storage"
-					}
-				},
-				"schema": {}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
