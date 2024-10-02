@@ -141,13 +141,7 @@
 			}
 		],
 		"variables": {
-			"test": {
-				"type": "String"
-			},
 			"filename": {
-				"type": "String"
-			},
-			"filenature": {
 				"type": "String"
 			},
 			"filetype": {
