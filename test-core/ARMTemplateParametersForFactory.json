@@ -7,6 +7,15 @@
 		},
 		"azurestorage_connectionString": {
 			"value": ""
+		},
+		"test_rest_password": {
+			"value": ""
+		},
+		"test_rest_properties_typeProperties_url": {
+			"value": "https://jsonplaceholder.typicode.com/todos"
+		},
+		"test_rest_properties_typeProperties_userName": {
+			"value": "anirudhbhadauria"
 		}
 	}
 }

@@ -11,6 +11,18 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'azurestorage'"
 		},
+		"test_rest_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'test_rest'"
+		},
+		"test_rest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
+		},
+		"test_rest_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "anirudhbhadauria"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -40,6 +52,15 @@
 					},
 					"azurestorage_connectionString": {
 						"value": "[parameters('azurestorage_connectionString')]"
+					},
+					"test_rest_password": {
+						"value": "[parameters('test_rest_password')]"
+					},
+					"test_rest_properties_typeProperties_url": {
+						"value": "[parameters('test_rest_properties_typeProperties_url')]"
+					},
+					"test_rest_properties_typeProperties_userName": {
+						"value": "[parameters('test_rest_properties_typeProperties_userName')]"
 					}
 				}
 			},

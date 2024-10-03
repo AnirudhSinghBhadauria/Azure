@@ -10,6 +10,18 @@
 		"azurestorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'azurestorage'"
+		},
+		"test_rest_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'test_rest'"
+		},
+		"test_rest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
+		},
+		"test_rest_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "anirudhbhadauria"
 		}
 	},
 	"variables": {
@@ -25,6 +37,26 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('azurestorage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/test_rest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('test_rest_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('test_rest_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('test_rest_password')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -952,54 +984,6 @@
 						"container": "test-storage"
 					}
 				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Source_Chunk')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "azurestorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"chunk_name": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Chunk Datasets"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "test-storage"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "SUCH_ID",
-						"type": "String"
-					},
-					{
-						"name": "SUCH_CODE",
-						"type": "String"
-					},
-					{
-						"name": "NLK",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/azurestorage')]"
