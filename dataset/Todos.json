@@ -1,0 +1,12 @@
+{
+	"name": "Todos",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "test_rest",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

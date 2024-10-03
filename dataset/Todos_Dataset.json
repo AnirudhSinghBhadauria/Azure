@@ -1,0 +1,27 @@
+{
+	"name": "Todos_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azurestorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@concat('todo', '-', substring(guid(), 1, 4), '.csv')",
+					"type": "Expression"
+				},
+				"folderPath": "source/test",
+				"container": "test-storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
