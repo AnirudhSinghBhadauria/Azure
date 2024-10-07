@@ -5,7 +5,14 @@
 			{
 				"name": "Fetch todos",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Creating random filename",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -19,10 +26,7 @@
 						"type": "RestSource",
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
+						"requestMethod": "GET"
 					},
 					"sink": {
 						"type": "DelimitedTextSink",
@@ -88,7 +92,13 @@
 				"outputs": [
 					{
 						"referenceName": "Todos_Dataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@variables('filename')",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
@@ -114,8 +124,101 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "Creating random filename",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "filename",
+					"value": "@concat('todo', '-', substring(guid(), 1, 4), '.csv')"
+				}
+			},
+			{
+				"name": "Delete the file from stage",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "Copy all CSVs from source to target",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "Delete_Todos",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@variables('filename')",
+								"type": "Expression"
+							}
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "Fetching Todos",
+				"description": "Fetching Todos Failed",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Fetch todos",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "Fetching Todos Failed",
+					"errorCode": "503"
+				}
+			},
+			{
+				"name": "Copying fetched todos",
+				"description": "",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Copy all CSVs from source to target",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "Copying Todos Failed",
+					"errorCode": "503"
+				}
 			}
 		],
+		"variables": {
+			"filename": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "REST operations"
 		},

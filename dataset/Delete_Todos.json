@@ -1,5 +1,5 @@
 {
-	"name": "Todos_Dataset",
+	"name": "Delete_Todos",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "azurestorage",
@@ -11,7 +11,7 @@
 			}
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Binary",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
@@ -21,12 +21,7 @@
 				},
 				"folderPath": "source/test",
 				"container": "test-storage"
-			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
-		},
-		"schema": []
+			}
+		}
 	}
 }

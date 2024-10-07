@@ -1,0 +1,25 @@
+{
+	"name": "FetchedTodos",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Todos_Dataset",
+						"type": "DatasetReference"
+					},
+					"name": "FetchedTodos"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false) ~> FetchedTodos"
+			]
+		}
+	}
+}
